@@ -1,0 +1,31 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MangAUI.Views.SelectMangaPage"
+                xmlns:views="clr-namespace:MangAUI.Views"
+                xmlns:vm="clr-namespace:MangAUI.ViewModels"
+             BackgroundColor="{DynamicResource SecondaryColor}">
+    <Grid Margin="2">
+        <FlexLayout x:Name="list" Wrap="Wrap" JustifyContent="SpaceBetween" BindableLayout.ItemsSource="{Binding Mangas}">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="3"
+                        HeightRequest="{OnPlatform Android=195, iOS=155, Default=300}" WidthRequest="{OnPlatform Android=130, iOS=130, Default=150}"
+                           Padding="6"
+                           >
+                        <Grid HorizontalOptions="Fill" VerticalOptions="Fill" Background="#00ffffff">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding}"/>
+                            </Grid.GestureRecognizers>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="70"/>
+                            </Grid.RowDefinitions>
+                            <Image Source="{Binding image}"/>
+                            <Label Text="{Binding title}" Grid.Row="1"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </FlexLayout>
+    </Grid>
+</ContentPage>
