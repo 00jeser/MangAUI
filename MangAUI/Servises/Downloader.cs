@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MangAUI.Models;
+using static System.Console;
 
 namespace MangAUI.Servises
 {
@@ -17,9 +18,36 @@ namespace MangAUI.Servises
 
 
         protected string URL;
-        public Downloader(string url) 
+        public Downloader(string url)
         {
-            URL = url;
+            URL = url.Replace("http:", "https:");
+        }
+
+        public IEnumerable<string> GetImages()
+        {
+            var web = new HtmlWeb();
+            var document = web.LoadFromWebAsync(URL).Result;
+            yield return "";
+        }
+
+        public IEnumerable<ChapterCard> GetChaptersList()
+        {
+
+            var web = new HtmlWeb();
+            var document = web.LoadFromWebAsync(URL).Result;
+
+            foreach(var chapter in document.DocumentNode.Descendants("div")
+                .Where(x => x.Attributes["class"]?.Value == "chapterlist")
+                .FirstOrDefault()
+                .Descendants("tr")
+                .Skip(1)
+                .Select(x => x.Descendants("a").FirstOrDefault())) 
+            {
+                var chapterCard = new ChapterCard();
+                chapterCard.url = chapter.Attributes["href"].Value;
+                chapterCard.name = chapter.InnerText;
+                yield return chapterCard;
+            }
         }
 
         public IEnumerable<MangaCard> GetMainMangaList() 

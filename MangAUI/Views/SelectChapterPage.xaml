@@ -4,27 +4,28 @@
                 xmlns:views="clr-namespace:MangAUI.Views"
                 xmlns:vm="clr-namespace:MangAUI.ViewModels"
              BackgroundColor="{DynamicResource SecondaryColor}">
-    <Grid>
-        <FlexLayout x:Name="list" Wrap="Wrap" JustifyContent="SpaceBetween" BindableLayout.ItemsSource="{Binding Mangas}">
-            <BindableLayout.ItemTemplate>
-                <DataTemplate>
-                    <Grid
-                        HeightRequest="{OnPlatform Android=155, iOS=155, Default=300}" WidthRequest="{OnPlatform Android=90, iOS=90, Default=150}"
-                        Background="darkgray"
-                        Margin="3"
-                        >
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding}"/>
-                        </Grid.GestureRecognizers>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition Height="30"/>
-                        </Grid.RowDefinitions>
-                        <Image Source="{Binding image}"/>
-                        <Label Text="{Binding title}" Grid.Row="1"/>
-                    </Grid>
-                </DataTemplate>
-            </BindableLayout.ItemTemplate>
-        </FlexLayout>
-    </Grid>
+    <ScrollView>
+        <StackLayout Margin="10, 0">
+            <Label FontSize="20" Text="{Binding Name}"/>
+            <CollectionView ItemsSource="{Binding Chapters}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="8"
+                               BorderColor="#eee"
+                               CornerRadius="6.283">
+                            <Label Text="{Binding name}"/>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding}"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+
+    </ScrollView>
 </ContentPage>

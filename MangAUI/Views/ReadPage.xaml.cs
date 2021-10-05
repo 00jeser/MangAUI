@@ -7,16 +7,15 @@ using MangAUI.ViewModels;
 
 namespace MangAUI.Views
 {
-    public partial class SelectMangaPage : ContentPage
+    public partial class ReadPage : ContentPage
     {
         int count = 0;
 
-        public SelectMangaPage()
+        public ReadPage(ChapterCard chapter)
         {
             InitializeComponent();
-            BindingContext = new SelectMangaViewModel(Navigation);
-            Title = "Выбор манги";
-            LastLabel.Text = "Последние обновления";
+            BindingContext = new ReadViewModel(chapter);
+            Title = chapter.name;
         }
 
         public async void press(object sender, object aargs) 

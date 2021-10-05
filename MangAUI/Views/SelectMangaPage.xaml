@@ -5,14 +5,26 @@
                 xmlns:vm="clr-namespace:MangAUI.ViewModels"
              BackgroundColor="{DynamicResource SecondaryColor}">
     <Grid Margin="2">
-        <FlexLayout x:Name="list" Wrap="Wrap" JustifyContent="SpaceBetween" BindableLayout.ItemsSource="{Binding Mangas}">
-            <BindableLayout.ItemTemplate>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Label x:Name="LastLabel"/>
+        <CollectionView Grid.Row="1" x:Name="list" ItemsSource="{Binding Mangas}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="4" Orientation="Horizontal"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame Margin="3"
-                        HeightRequest="{OnPlatform Android=195, iOS=155, Default=300}" WidthRequest="{OnPlatform Android=130, iOS=130, Default=150}"
-                           Padding="6"
+                    <Frame Margin="7"
+                           HeightRequest="{OnPlatform Android=195, iOS=195, Default=300}" WidthRequest="{OnPlatform Android=130, iOS=130, Default=150}"
+                           CornerRadius="6"
+                           BorderColor="#DDD"
+                           BackgroundColor="#EFEFEF"
+                           Padding="10"
                            >
-                        <Grid HorizontalOptions="Fill" VerticalOptions="Fill" Background="#00ffffff">
+                        <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding}"/>
                             </Grid.GestureRecognizers>
@@ -21,11 +33,11 @@
                                 <RowDefinition Height="70"/>
                             </Grid.RowDefinitions>
                             <Image Source="{Binding image}"/>
-                            <Label Text="{Binding title}" Grid.Row="1"/>
+                            <Label HorizontalOptions="Fill" VerticalOptions="Fill" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding title}" Grid.Row="1"/>
                         </Grid>
                     </Frame>
                 </DataTemplate>
-            </BindableLayout.ItemTemplate>
-        </FlexLayout>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </Grid>
 </ContentPage>

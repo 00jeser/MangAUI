@@ -53,6 +53,9 @@
 	  <Compile Update="Views\SelectChapterPage.xaml.cs">
 	    <DependentUpon>SelectChapterPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\ReadPage.xaml.cs">
+	    <DependentUpon>ReadPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\SelectMangaPage.xaml.cs">
 	    <DependentUpon>SelectMangaPage.xaml</DependentUpon>
 	  </Compile>
@@ -60,6 +63,10 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Views\SelectChapterPage.xaml">
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ReadPage.xaml">
 	    <SubType>Designer</SubType>
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
