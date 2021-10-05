@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MangAUI.Models;
-using static System.Console;
+using MangXF.Models;
 
-namespace MangAUI.Servises
+namespace MangXF.Servises
 {
     class Downloader
     {

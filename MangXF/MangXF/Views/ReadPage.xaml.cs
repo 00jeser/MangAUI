@@ -1,12 +1,17 @@
-﻿using Microsoft.Maui.Controls;
-using Microsoft.Maui.Essentials;
+﻿using MangXF.Models;
+using MangXF.ViewModels;
 using System;
-using MangAUI.Models;
 using System.Collections.Generic;
-using MangAUI.ViewModels;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MangAUI.Views
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace MangXF.Views
 {
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ReadPage : ContentPage
     {
         public ReadPage(ChapterCard chapter)
@@ -15,6 +20,5 @@ namespace MangAUI.Views
             BindingContext = new ReadViewModel(chapter);
             Title = chapter.name;
         }
-
     }
 }

@@ -1,5 +1,4 @@
-﻿using MangAUI.Models;
-using Microsoft.Maui.Controls;
+﻿using MangXF.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,12 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MangAUI.ViewModels
+namespace MangXF.ViewModels
 {
-    class ReadViewModel : INotifyPropertyChanged
+    class SelectChapterViewModel : INotifyPropertyChanged
     {
-        public INavigation Navigation;
-
         private ObservableCollection<ChapterCard> chapters;
         public ObservableCollection<ChapterCard> Chapters
         {
@@ -28,13 +25,10 @@ namespace MangAUI.ViewModels
         private string name;
         public string Name {  get {  return name; } set { name = value; OnPropertyChanged("Name"); } }
 
-        public ReadViewModel(ChapterCard chapter) 
+        public SelectChapterViewModel(MangaCard manga) 
         {
-            Chapters = new ObservableCollection<ChapterCard>();
-            foreach(var c in (new Servises.Downloader(chapter.url)).GetImages()) 
-            {
-
-            }
+            Name = manga.title;
+            Chapters = new ObservableCollection<ChapterCard>((new Servises.Downloader(manga.url)).GetChaptersList());
         }
 
 

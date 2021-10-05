@@ -5,24 +5,14 @@
                 xmlns:vm="clr-namespace:MangAUI.ViewModels"
              BackgroundColor="{DynamicResource SecondaryColor}">
     <Grid Margin="2">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition/>
-            <RowDefinition Height="2*"/>
-        </Grid.RowDefinitions>
-        <CarouselView ItemsSource="{Binding Images}">
-            <CarouselView.ItemsLayout>
-                <LinearItemsLayout
-                        Orientation="Vertical" 
-                        SnapPointsAlignment="Start" 
-                        SnapPointsType="MandatorySingle" 
-                        />
-            </CarouselView.ItemsLayout>
-            <CarouselView.ItemTemplate>
+        <CollectionView ItemsSource="{Binding Images}">
+            <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding}"/>
+                    <Grid>
+                        <Image Source="{Binding}"/>
+                    </Grid>
                 </DataTemplate>
-            </CarouselView.ItemTemplate>
-        </CarouselView>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </Grid>
 </ContentPage>

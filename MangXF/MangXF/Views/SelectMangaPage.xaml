@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MangXF.Views.SelectMangaPage">
+    <ContentPage.Content>
+        <Grid Margin="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="LastLabel"/>
+            <CollectionView Grid.Row="1" x:Name="list" ItemsSource="{Binding Mangas}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="4" Orientation="Horizontal"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="7"
+                           HeightRequest="{OnPlatform Android=195, iOS=195, Default=300}" WidthRequest="{OnPlatform Android=130, iOS=130, Default=150}"
+                           CornerRadius="6"
+                           BorderColor="#DDD"
+                           BackgroundColor="#EFEFEF"
+                           Padding="10"
+                           >
+                            <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding}"/>
+                                </Grid.GestureRecognizers>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="70"/>
+                                </Grid.RowDefinitions>
+                                <Image Source="{Binding image}"/>
+                                <Label HorizontalOptions="Fill" VerticalOptions="Fill" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding title}" Grid.Row="1"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

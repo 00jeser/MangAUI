@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MangXF.Views.SelectChapterPage">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Margin="10, 0">
+                <Label FontSize="20" Text="{Binding Name}"/>
+                <CollectionView ItemsSource="{Binding Chapters}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Padding="8"
+                               BorderColor="#eee"
+                               CornerRadius="6.283">
+                                <Label Text="{Binding name}"/>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                    Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding}"/>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
