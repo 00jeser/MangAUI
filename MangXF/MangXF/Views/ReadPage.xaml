@@ -4,7 +4,7 @@
              x:Class="MangXF.Views.ReadPage">
     <ContentPage.Content>
         <Grid Margin="2">
-            <CollectionView Loop="False" ItemsSource="{Binding Images}">
+            <CarouselView Loop="False" ItemsSource="{Binding Images}">
                 <CarouselView.ItemsLayout>
                     <LinearItemsLayout
                         Orientation="Vertical" 
@@ -22,7 +22,7 @@
                         </Grid>
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
-            </CollectionView>
+            </CarouselView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
