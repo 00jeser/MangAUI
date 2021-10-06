@@ -25,10 +25,22 @@ namespace MangXF.ViewModels
         private string name;
         public string Name {  get {  return name; } set { name = value; OnPropertyChanged("Name"); } }
 
+        private string url;
+
         public SelectChapterViewModel(MangaCard manga) 
         {
             Name = manga.title;
-            Chapters = new ObservableCollection<ChapterCard>((new Servises.Downloader(manga.url)).GetChaptersList());
+            url = manga.url;
+            Chapters = new ObservableCollection<ChapterCard>();
+            Task.Run(Add);
+        }
+
+        private void Add() 
+        {
+            foreach(var c in (new Servises.Downloader(url)).GetChaptersList()) 
+            {
+                Chapters.Add(c);
+            }
         }
 
 

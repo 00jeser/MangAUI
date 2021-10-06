@@ -15,13 +15,25 @@ namespace MangXF.ViewModels
         public INavigation Navigation;
 
         private ObservableCollection<MangaCard> mangas;
-        public ObservableCollection<MangaCard> Mangas 
+        public ObservableCollection<MangaCard> Mangas
         {
-            get {  return mangas; }
-            set 
+            get { return mangas; }
+            set
             {
                 mangas = value;
                 OnPropertyChanged("Mangas");
+            }
+        }
+
+
+        private ObservableCollection<MangaCard> searchmangas;
+        public ObservableCollection<MangaCard> SearchMangas
+        {
+            get { return searchmangas; }
+            set
+            {
+                searchmangas = value;
+                OnPropertyChanged("SearchMangas");
             }
         }
 
@@ -29,6 +41,7 @@ namespace MangXF.ViewModels
         {
             Navigation = navigation;
             Mangas = new ObservableCollection<MangaCard>((new Servises.Downloader("https://www.mangarussia.com/")).GetMainMangaList().ToList().Take(10));
+            SearchMangas = new ObservableCollection<MangaCard>(Mangas);
         }
 
 

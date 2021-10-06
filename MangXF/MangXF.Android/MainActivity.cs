@@ -4,6 +4,8 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using Xamarin.Forms;
+using Android.Views;
 
 namespace MangXF.Droid
 {
@@ -13,6 +15,21 @@ namespace MangXF.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            MessagingCenter.Subscribe<Object, bool>(this, "Hide", (arg, isHaveBar) => {
+
+                if (isHaveBar)
+                {
+                    Window.ClearFlags(WindowManagerFlags.Fullscreen);
+                    Window.AddFlags(WindowManagerFlags.ForceNotFullscreen);
+                }
+
+                else
+                {
+                    Window.AddFlags(WindowManagerFlags.Fullscreen);
+                    Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
+                }
+
+            });
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

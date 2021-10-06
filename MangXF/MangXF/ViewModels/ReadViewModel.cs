@@ -28,13 +28,22 @@ namespace MangXF.ViewModels
         private string name;
         public string Name {  get {  return name; } set { name = value; OnPropertyChanged("Name"); } }
 
+        private string url;
+
         public ReadViewModel(ChapterCard chapter) 
         {
             Images = new ObservableCollection<string>();
-            foreach(var c in (new Servises.Downloader(chapter.url)).GetImages()) 
+            url = chapter.url;
+            Task.Run(Add);
+        }
+
+        private void Add() 
+        {
+            foreach(var c in (new Servises.Downloader(url)).GetImages()) 
             {
                 Images.Add(c);
             }
+
         }
 
 

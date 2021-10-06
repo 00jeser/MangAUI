@@ -4,14 +4,24 @@
              x:Class="MangXF.Views.ReadPage">
     <ContentPage.Content>
         <Grid Margin="2">
-            <CollectionView ItemsSource="{Binding Images}">
-                <CollectionView.ItemTemplate>
+            <CollectionView Loop="False" ItemsSource="{Binding Images}">
+                <CarouselView.ItemsLayout>
+                    <LinearItemsLayout
+                        Orientation="Vertical" 
+                        SnapPointsAlignment="Start" 
+                        SnapPointsType="MandatorySingle" 
+                        />
+                </CarouselView.ItemsLayout>
+                <CarouselView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Image Source="{Binding}"/>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                            </Grid.GestureRecognizers>
                         </Grid>
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
+                </CarouselView.ItemTemplate>
             </CollectionView>
         </Grid>
     </ContentPage.Content>

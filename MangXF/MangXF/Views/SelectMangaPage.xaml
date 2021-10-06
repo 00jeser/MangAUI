@@ -7,6 +7,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition/>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
             <Label x:Name="LastLabel"/>
@@ -38,6 +39,43 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+            <Label Text="Поиск" Grid.Row="2"/>
+            <Grid Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Entry/>
+                <Button Text="Найти" Grid.Column="1"/>
+                <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
+                    <FlexLayout Wrap="Wrap" JustifyContent="SpaceBetween" BindableLayout.ItemsSource="{Binding SearchMangas}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Frame Margin="3"
+                        HeightRequest="200" WidthRequest="120"
+                           Padding="6"
+                           >
+                                    <Grid HorizontalOptions="Fill" VerticalOptions="Fill" Background="#00ffffff">
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding}"/>
+                                        </Grid.GestureRecognizers>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition Height="70"/>
+                                        </Grid.RowDefinitions>
+                                        <Image Source="{Binding image}"/>
+                                        <Label Text="{Binding title}" Grid.Row="1"/>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </ScrollView>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
