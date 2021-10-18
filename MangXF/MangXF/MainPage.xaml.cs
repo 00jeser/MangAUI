@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MangXF.Servises;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace MangXF
         public MainPage()
         {
             InitializeComponent();
+            ApplicationSingleton.ApplicationWidth = (float)Application.Current.MainPage.Width;
         }
     }
 }

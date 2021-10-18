@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MangXF.Models;
+using Newtonsoft.Json;
+using SkiaSharp;
+using Xamarin.Forms;
 
 namespace MangXF.Servises
 {
     class Downloader
     {
-        //private string FolderUrl = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Manga\\";
-        private string FolderUrl = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Manga\\";
+        private string FolderUrl = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Manga\\";
+        //private string FolderUrl = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Manga\\";
 
 
         protected string URL;
@@ -21,33 +25,64 @@ namespace MangXF.Servises
             URL = url.Replace("http:", "https:");
         }
 
-        public IEnumerable<string> GetImages()
+        public IEnumerable<ImageModel> GetImages()
         {
-            if(URL.EndsWith("/"))
+            List<ImageModel> images = new List<ImageModel>();
+            if (URL.EndsWith("/"))
                 URL = URL.Substring(0, URL.Length - 1);
-            int i = 0;
-            while (true)
+
+            string mangaid = URL.Split('/')[4];
+            string charpterid = URL.Split('/')[5];
+            if (File.Exists(FolderUrl + mangaid + charpterid))
             {
-                i++;
-                var web = new HtmlWeb();
-                HtmlDocument document = null;
-                try
+                string jsontext = File.ReadAllText(FolderUrl + mangaid + charpterid);
+                foreach (var c in JsonConvert.DeserializeObject<List<ImageModel>>(jsontext))
+                    yield return c;
+            }
+            else
+            {
+                int i = 0;
+                while (true)
                 {
-                    document = web.LoadFromWebAsync($"{URL}-{i}.html").Result;
+                    i++;
+                    var web = new HtmlWeb();
+                    HtmlDocument document = null;
+                    try
+                    {
+                        document = web.LoadFromWebAsync($"{URL}-{i}.html").Result;
+                    }
+                    catch (Exception)
+                    {
+                        break;
+                    }
+                    var img = document.DocumentNode.Descendants("img").Where(x => x.Attributes["id"]?.Value == "comicpic")?.FirstOrDefault();
+                    if (img == null)
+                        break;
+                    else if (img.Attributes["src"]?.Value == null)
+                        break;
+                    else
+                    {
+                        string c = img.Attributes["src"].Value;
+                        WebClient client = new WebClient();
+                        Stream stream = client.OpenRead(c);
+                        var bitmap = SKBitmap.Decode(stream);
+                        if (bitmap != null)
+                        {
+                            var im = new ImageModel((float)Application.Current.MainPage.Width, bitmap.Height * ((float)Application.Current.MainPage.Width / bitmap.Width), c);
+                            images.Add(im);
+                            yield return im;
+                        }
+                        //imgs.Add(new ImageModel());
+                        else
+                        {
+                            var im = new ImageModel(true);
+                            images.Add(im);
+                            yield return im;
+                        }
+
+                    }
                 }
-                catch (Exception)
-                {
-                    break;
-                }
-                var img = document.DocumentNode.Descendants("img").Where(x => x.Attributes["id"]?.Value == "comicpic")?.FirstOrDefault();
-                if (img == null)
-                    break;
-                else if (img.Attributes["src"]?.Value == null)
-                    break;
-                else
-                {
-                    yield return img.Attributes["src"].Value;
-                }
+                File.WriteAllText(FolderUrl + mangaid + charpterid, JsonConvert.SerializeObject(images));
             }
         }
 
@@ -57,12 +92,12 @@ namespace MangXF.Servises
             var web = new HtmlWeb();
             var document = web.LoadFromWebAsync(URL).Result;
 
-            foreach(var chapter in document.DocumentNode.Descendants("div")
+            foreach (var chapter in document.DocumentNode.Descendants("div")
                 .Where(x => x.Attributes["class"]?.Value == "chapterlist")
                 .FirstOrDefault()
                 .Descendants("tr")
                 .Skip(1)
-                .Select(x => x.Descendants("a").FirstOrDefault())) 
+                .Select(x => x.Descendants("a").FirstOrDefault()))
             {
                 var chapterCard = new ChapterCard();
                 chapterCard.url = chapter.Attributes["href"].Value;
@@ -71,13 +106,13 @@ namespace MangXF.Servises
             }
         }
 
-        public IEnumerable<MangaCard> GetMainMangaList() 
+        public IEnumerable<MangaCard> GetMainMangaList()
         {
 
             var web = new HtmlWeb();
             var document = web.LoadFromWebAsync(URL).Result;
 
-            foreach(var dl in document.DocumentNode.Descendants("dl")) 
+            foreach (var dl in document.DocumentNode.Descendants("dl"))
             {
                 var card = new MangaCard();
                 card.image = dl.Descendants("dd")?
@@ -120,7 +155,7 @@ namespace MangXF.Servises
                 .Descendants("tr")
                 .Skip(1)
                 .ToList();
-            foreach(var item in container)
+            foreach (var item in container)
             {
                 try
                 {

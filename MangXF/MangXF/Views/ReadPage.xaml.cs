@@ -21,12 +21,21 @@ namespace MangXF.Views
             BindingContext = new ReadViewModel(chapter);
             Title = chapter.name;
             NavigationPage.SetHasNavigationBar(this, nav);
+            //ToolbarItems.Add(new ToolbarItem("Изм. вид", "feed.png", () =>
+            //{
+            //    ((ReadViewModel)BindingContext).isCarousel = !((ReadViewModel)BindingContext).isCarousel;
+            //}));
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             nav = !nav;
             NavigationPage.SetHasNavigationBar(this, nav);
+        }
+
+        private void ToolbarItem_Clicked(object sender, EventArgs e)
+        {
+            ((ReadViewModel)BindingContext).isCarousel = !((ReadViewModel)BindingContext).isCarousel;
         }
     }
 }

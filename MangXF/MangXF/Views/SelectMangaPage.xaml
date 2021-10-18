@@ -1,7 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MangXF.Views.SelectMangaPage">
+             x:Class="MangXF.Views.SelectMangaPage"
+             BackgroundColor="{AppThemeBinding Dark=#151515, Light=#FFF}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Dark=#FFF, Light=#000}"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid Margin="2">
             <Grid.RowDefinitions>
@@ -20,8 +28,8 @@
                         <Frame Margin="7"
                            HeightRequest="{OnPlatform Android=195, iOS=195, Default=300}" WidthRequest="{OnPlatform Android=130, iOS=130, Default=150}"
                            CornerRadius="6"
-                           BorderColor="#DDD"
-                           BackgroundColor="#EFEFEF"
+                           BorderColor="{AppThemeBinding Light=#DDD, Dark=#333}"
+                           BackgroundColor="{AppThemeBinding Light=#EFEFEF, Dark=#010101}"
                            Padding="10"
                            >
                             <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
@@ -50,7 +58,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Entry/>
-                <Button Text="Найти" Grid.Column="1"/>
+                <Button TextColor="{AppThemeBinding Dark=#FFF, Light=#000}" BackgroundColor="{AppThemeBinding Light=#EEEFEFEF, Dark=#EE010101}"  Text="Найти" Grid.Column="1"/>
                 <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
                     <FlexLayout Wrap="Wrap" JustifyContent="SpaceBetween" BindableLayout.ItemsSource="{Binding SearchMangas}">
                         <BindableLayout.ItemTemplate>
@@ -58,8 +66,10 @@
                                 <Frame Margin="3"
                         HeightRequest="200" WidthRequest="120"
                            Padding="6"
+                           BorderColor="{AppThemeBinding Light=#DDD, Dark=#333}"
+                           BackgroundColor="{AppThemeBinding Light=#EFEFEF, Dark=#010101}"
                            >
-                                    <Grid HorizontalOptions="Fill" VerticalOptions="Fill" Background="#00ffffff">
+                                    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
                                         <Grid.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding}"/>
                                         </Grid.GestureRecognizers>

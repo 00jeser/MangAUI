@@ -1,7 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MangXF.Views.SelectChapterPage">
+             x:Class="MangXF.Views.SelectChapterPage"
+             BackgroundColor="{AppThemeBinding Dark=#151515, Light=#FFF}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Dark=#FFF, Light=#000}"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="10, 0">
@@ -13,7 +22,8 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Frame Padding="8"
-                               BorderColor="#eee"
+                           BorderColor="{AppThemeBinding Light=#DDD, Dark=#333}"
+                           BackgroundColor="{AppThemeBinding Light=#EFEFEF, Dark=#010101}"
                                CornerRadius="6.283">
                                 <Label Text="{Binding name}"/>
                                 <Frame.GestureRecognizers>

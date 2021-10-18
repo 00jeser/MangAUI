@@ -1,10 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+             xmlns:mangxf="clr-namespace:MangXF" 
+             xmlns:converters="clr-namespace:MangXF.Converters"
              x:Class="MangXF.Views.ReadPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:NotBoolConverter x:Key="not" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="feed.png" Text="вид" Clicked="ToolbarItem_Clicked"/>
+        <ToolbarItem IconImageSource="update.png" Text="обновить" Clicked="ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid Margin="2">
-            <CarouselView Loop="False" ItemsSource="{Binding Images}">
+            <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="True"/>
+            <ScrollView IsVisible="{Binding isCarousel, Converter={StaticResource not}}">
+                <ScrollView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                </ScrollView.GestureRecognizers>
+                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Spacing="0" BindableLayout.ItemsSource="{Binding Images}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Image HorizontalOptions="Center" VerticalOptions="Center" Aspect="Fill" Source="{Binding Url}" WidthRequest="{Binding Width}" HeightRequest="{Binding Height}">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </ScrollView>
+            <CarouselView IsVisible="{Binding isCarousel}" ItemsSource="{Binding Images}" Loop="False">
                 <CarouselView.ItemsLayout>
                     <LinearItemsLayout
                         Orientation="Vertical" 
@@ -14,12 +43,7 @@
                 </CarouselView.ItemsLayout>
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Image Source="{Binding}"/>
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
-                            </Grid.GestureRecognizers>
-                        </Grid>
+                        <Image Aspect="AspectFit" Source="{Binding Url}"/>
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
             </CarouselView>
