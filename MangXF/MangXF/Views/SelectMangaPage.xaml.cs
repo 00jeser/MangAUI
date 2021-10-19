@@ -1,4 +1,5 @@
 ﻿using MangXF.Models;
+using MangXF.Servises;
 using MangXF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace MangXF.Views
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
+            Downloader.AddLastManga((MangaCard)((TappedEventArgs)e).Parameter);
             await Navigation.PushAsync(new SelectChapterPage((MangaCard)((TappedEventArgs)e).Parameter));
         }
     }

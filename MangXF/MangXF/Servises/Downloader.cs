@@ -25,6 +25,23 @@ namespace MangXF.Servises
             URL = url.Replace("http:", "https:");
         }
 
+        public static void AddLastManga(MangaCard c)
+        {
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Manga\\last";
+            if (File.Exists(path))
+            {
+                var ml = JsonConvert.DeserializeObject<List<MangaCard>>(File.ReadAllText(path));
+                if(ml.Contains(c))
+                    ml.Remove(c);
+                ml.Insert(0, c);
+                File.WriteAllText(path, JsonConvert.SerializeObject(ml));
+            }
+            else
+            {
+                File.WriteAllText(path, JsonConvert.SerializeObject(new List<MangaCard>() { c }));
+            }
+        }
+
         public IEnumerable<ImageModel> GetImages()
         {
             List<ImageModel> images = new List<ImageModel>();
@@ -131,6 +148,32 @@ namespace MangXF.Servises
                     .Descendants("a")?
                     .FirstOrDefault()?
                     .Attributes["href"]?.Value;
+                yield return card;
+            }
+        }
+        public List<MangaCard> GetLastMangaList()
+        {
+            if (File.Exists(FolderUrl + "last"))
+            {
+                var mangas = JsonConvert.DeserializeObject<List<MangaCard>>(File.ReadAllText(FolderUrl + "last"));
+                return mangas;
+            }
+            else
+            {
+                return new List<MangaCard>();
+            }
+        }
+        public IEnumerable<MangaCard> FindMangaList(string findString)
+        {
+            var web = new HtmlWeb();
+            var document = web.LoadFromWebAsync($"http://www.mangarussia.com/search/?name_sel=contain&wd={findString}&author_sel=contain&author=&category_id=&out_category_id=&completed_series=either&type=").Result;
+
+            foreach (var div in document.DocumentNode.Descendants("table").Skip(1).FirstOrDefault().Descendants("div"))
+            {
+                var card = new MangaCard();
+                card.image = div.Descendants("img").FirstOrDefault().Attributes["src"]?.Value;
+                card.title = div.Descendants("a").Skip(1).FirstOrDefault().InnerText.Replace("<br>", "");
+                card.url = div.Descendants("a").FirstOrDefault().Attributes["href"]?.Value;
                 yield return card;
             }
         }

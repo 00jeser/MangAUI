@@ -48,7 +48,10 @@ namespace MangXF.ViewModels
 
         private async void Init()
         {
-            await Task.Run(Add);
+            if(Device.RuntimePlatform == Device.UWP)
+                Images = new ObservableCollection<ImageModel>(new Downloader(url).GetImages());
+            else
+                await Task.Run(Add);
         }
 
         private void Add()

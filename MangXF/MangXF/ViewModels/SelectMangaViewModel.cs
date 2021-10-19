@@ -1,4 +1,5 @@
 ﻿using MangXF.Models;
+using MangXF.Servises;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -36,12 +37,42 @@ namespace MangXF.ViewModels
                 OnPropertyChanged("SearchMangas");
             }
         }
+        private ObservableCollection<MangaCard> lastManga;
+        public ObservableCollection<MangaCard> LastManga
+        {
+            get { return lastManga; }
+            set
+            {
+                lastManga = value;
+                OnPropertyChanged("LastManga");
+            }
+        }
+
+        private Command _search;
+        public Command Search
+        {
+            get {  return _search; }
+            set {  _search = value; OnPropertyChanged(nameof(Search)); }
+        }
+
+        private string _searchString;
+
+        public string SearchString
+        {
+            get { return _searchString; }
+            set { _searchString = value; OnPropertyChanged(nameof(SearchString)); }
+        }
+
 
         public SelectMangaViewModel(INavigation navigation) 
         {
             Navigation = navigation;
-            Mangas = new ObservableCollection<MangaCard>((new Servises.Downloader("https://www.mangarussia.com/")).GetMainMangaList().ToList().Take(10));
+            Mangas = new ObservableCollection<MangaCard>(new Downloader("https://www.mangarussia.com/").GetMainMangaList().ToList().Take(10));
             SearchMangas = new ObservableCollection<MangaCard>(Mangas);
+            LastManga = new ObservableCollection<MangaCard>(new Downloader("").GetLastMangaList());
+            Search = new Command(() => {
+                SearchMangas = new ObservableCollection<MangaCard>(new Servises.Downloader("").FindMangaList(SearchString).ToList());
+            });
         }
 
 

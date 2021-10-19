@@ -17,9 +17,33 @@
                 <RowDefinition/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="2*"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <Label x:Name="LastLabel"/>
             <CollectionView Grid.Row="1" x:Name="list" ItemsSource="{Binding Mangas}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="4" Orientation="Horizontal"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="7"
+                           HeightRequest="{OnPlatform Android=90, iOS=90, Default=300}" WidthRequest="{OnPlatform Android=130, iOS=130, Default=150}"
+                           CornerRadius="6"
+                           BorderColor="{AppThemeBinding Light=#DDD, Dark=#333}"
+                           BackgroundColor="{AppThemeBinding Light=#EFEFEF, Dark=#010101}"
+                           Padding="10"
+                           >
+                            <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+                                <Image Source="{Binding image}" Aspect="AspectFill"/>
+                                <Label HorizontalOptions="Fill" VerticalOptions="Fill" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding title}" BackgroundColor="#5000"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Label Text="Последние"  Grid.Row="2"/>
+            <CollectionView Grid.Row="3" ItemsSource="{Binding LastManga}" VerticalOptions="Fill">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout ItemSpacing="4" Orientation="Horizontal"/>
                 </CollectionView.ItemsLayout>
@@ -47,8 +71,8 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Label Text="Поиск" Grid.Row="2"/>
-            <Grid Grid.Row="3">
+            <Label Text="Поиск" Grid.Row="4"/>
+            <Grid Grid.Row="5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                     <RowDefinition/>
@@ -57,8 +81,8 @@
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Entry/>
-                <Button TextColor="{AppThemeBinding Dark=#FFF, Light=#000}" BackgroundColor="{AppThemeBinding Light=#EEEFEFEF, Dark=#EE010101}"  Text="Найти" Grid.Column="1"/>
+                <Entry Text="{Binding SearchString}"/>
+                <Button TextColor="{AppThemeBinding Dark=#FFF, Light=#000}" BackgroundColor="{AppThemeBinding Light=#EEEFEFEF, Dark=#EE010101}"  Text="Найти" Grid.Column="1" Command="{Binding Search}"/>
                 <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
                     <FlexLayout Wrap="Wrap" JustifyContent="SpaceBetween" BindableLayout.ItemsSource="{Binding SearchMangas}">
                         <BindableLayout.ItemTemplate>
